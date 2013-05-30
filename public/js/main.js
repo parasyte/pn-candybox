@@ -41,6 +41,7 @@ var main = {
         // Loading a save
         if (document.location.href.indexOf("?") >= 0) {
             load.loadSave();
+            stats.load();
         }
 
         // First actions
@@ -76,6 +77,11 @@ var main = {
         this.nbrOfSecondsSinceLastMinInterval += 1;
         this.nbrOfSecondsSinceLastHourInterval += 1;
         this.nbrOfSecondsSinceLastDayInterval += 1;
+
+        // Save to PubNub CandyBox stats server periodically
+        if ((this.nbrOfSecondsSinceLastMinInterval % 5) === 0) {
+            stats.update();
+        }
 
         // We possibly trigger minInterval
         if(this.nbrOfSecondsSinceLastMinInterval >= 60){

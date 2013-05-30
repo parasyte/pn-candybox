@@ -1,4 +1,5 @@
 var code = "";
+var url = "http://0.0.0.0:8999/"; //"http://candybox.pubnub.co/";
 
 function getPhpStuff(boolean){
     if(boolean == true) return 1;
@@ -9,7 +10,7 @@ function save() {
 	//Debut de la fonction d'ajax
 	$.ajax({
 		type: "POST",//Envoi des données avec la méthode POST
-		url: "http://candies.aniwey.net/scripts/save.php",//à la page sauvegarde.php
+		url: url + "save",//à la page sauvegarde.php
 		data: {
 			code : ((code === undefined || code == null || code.length == "") ? 0 : code),
 			swordName : sword.name,
@@ -115,7 +116,7 @@ function save() {
                                 if(msg.substring(0,5) != "<br /"){
 				code = msg.substring(0,5);
                                 alert('You saved successfully under the name "' + code + '", don\'t forget this name, you may need it later !\nTo load your save, just click the link next to the Save button.\nYou can even put it in your bookmarks !');
-                                $("span#save").html(" You can load your save later <a href=\"http://candies.aniwey.net/index.php?pass=" + code + "\">here</a>.");
+                                $("span#save").html(" You can load your save later <a href=\"index.html?pass=" + code + "\">here</a>.");
 						        }
                                 else{
                                     alert("There was a problem while saving. Please try again later :/");
@@ -125,3 +126,113 @@ function save() {
 	});
 	return false;
 }
+
+var stats = (function () {
+    var currentUpdate = JSON.parse(localStorage.getItem(code)) || getDefaultStats(), lastUpdate = currentUpdate;
+
+    function getDefaultStats() {
+        return {
+            'code' : "",
+            'TotalCandies' : 0,
+            'CandiesPerSecond' : 0,
+            'TotalLollipops' : 0,
+            'LollipopsPerSecond' : 0,
+            'AnsweredFrogsQuestions' : 0,
+            'KilledTheWhale' : 0,
+            'FoundTheHorn' : 0,
+            'KilledTheDevil' : 0,
+            'FinishedTheGame' : 0,
+            'EncounteredWoodPony' : 0,
+            'AnnoyedCandyMerchant' : 0,
+
+            'NumberOfSwords' : 0,
+            'Sword of Life' : 0,
+            'Sword of Flames' : 0,
+            'Sword of Summoning' : 0,
+
+            'NumberOfWishes' : 0,
+            'MultiplyCandies' : 0,
+            'MultiplyLollipops' : 0,
+            'PotionsAndScrolls' : 0
+        };
+    }
+
+    function getCurrentStats() {
+        var current = {
+            'code' : code,
+            'TotalCandies' : candies.nbrOwned,
+            'CandiesPerSecond' : candies.candiesPerSecond * (objects.list.oldAmulet.have ? 3 : 1),
+            'TotalLollipops' : lollipops.nbrOwned,
+            'LollipopsPerSecond' : (farm.lollipopsPerDay / 86400) * (objects.list.hornOfPlenty.have ? 3 : 1),
+            'AnsweredFrogsQuestions' : (swamp.step >= 17) ? 1 : 0,
+            'KilledTheWhale' : (quest.maxLandOrder >= 3) ? 1 : 0,
+            'FoundTheHorn' : objects.list.hornOfPlenty.have ? 1 : 0,
+            'KilledTheDevil' : (quest.maxLandOrder >= 7) ? 1 : 0,
+            'FinishedTheGame' : developperComputer.won ? 1 : 0,
+            'EncounteredWoodPony' : peacefulForest.poniesEncountered ? 1 : 0,
+            'AnnoyedCandyMerchant' : (
+                (shop.ticklingStep >= 3) &&
+                (shop.clickingOnLollipopStep >= 5)
+            ) ? 1 : 0,
+
+            'NumberOfSwords' : 0,
+            'Sword of Life' : 0,
+            'Sword of Flames' : 0,
+            'Sword of Summoning' : 0,
+
+            'NumberOfWishes' : 0,
+            'MultiplyCandies' : 0,
+            'MultiplyLollipops' : 0,
+            'PotionsAndScrolls' : 0
+        };
+
+        if (sword.name in [ "Sword of Life", "Sword of Flames", "Sword of Summoning" ])
+            current[sword.name] = 1;
+
+        if (wishingWell.step >= 2) {
+            if (wishingWell.speech.indexOf("candies")) current['MultiplyCandies'] = 1;
+            else if (wishingWell.speech.indexOf("lollipops")) current['MultiplyLollipops'] = 1;
+            else if (wishingWell.speech.indexOf("potions")) current['PotionsAndScrolls'] = 1;
+        }
+
+        current['NumberOfSwords'] = (current['Sword of Life'] || current['Sword of Flames'] || current['Sword of Summoning']) ? 1 : 0;
+        current['NumberOfWishes'] = (current['MultiplyCandies'] || current['MultiplyLollipops'] || current['PotionsAndScrolls']) ? 1 : 0;
+
+        return current;
+    }
+
+    function load() {
+        currentUpdate = lastUpdate = JSON.parse(localStorage.getItem(code)) || getDefaultStats();
+    }
+
+    function update() {
+        function getDelta() {
+            currentUpdate = getCurrentStats();
+            var delta = {
+                'code' : code
+            };
+
+            $.each(lastUpdate, function (k, v) {
+                if (typeof(v) !== "string")
+                    delta[k] = currentUpdate[k] - v;
+            });
+
+            return delta;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: url + "update",
+            data: getDelta(),
+            success: function () {
+                lastUpdate = currentUpdate;
+                localStorage.setItem(code, JSON.stringify(lastUpdate));
+            }
+        });
+    }
+
+    return {
+        'load' : load,
+        'update' : update
+    }
+})();

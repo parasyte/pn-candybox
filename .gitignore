@@ -1,0 +1,15 @@
+## Ignore config, because it contains secrets. :)
+config.json
+
+## My python virtualenv is simply called "python"
+python/
+
+## Python cache
+*.pyc
+*.pyo
+
+## OS X
+.DS_Store
+._*
+.Trashes
+.Spotlight*

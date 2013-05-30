@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Candy box ! Statistics !</title>
+        <style type="text/css">
+            @font-face {
+                font-family: "pubnub";
+                src: url("p.ttf");
+            }
+
+            .pn {
+                font-family: "pubnub";
+                color : #c70320;
+                text-decoration: none;
+            }
+        </style>
+        <script type="text/javascript" src="http://cdn.pubnub.com/pubnub-3.4.5.min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="js/stats.js"></script>
+    </head>
+    <body>
+    <h3>Statistics (real-time updates by <a class="pn" target="_blank" href="http://www.pubnub.com/">PubNub</a>) :</h3>
+
+    <p>
+    <pre>
+<b>Last update at</b> : <span id="date">Updating...</span>
+
+<b>Number of saves</b> : <span id="_NumberOfSaves">0</span>
+
+
+Total candies generated : <span id="TotalCandies">0</span> (average <span id="CandiesPerSecond">0</span> per second)
+Total lollipops generated : <span id="TotalLollipops">0</span> (average <span id="LollipopsPerSecond">0</span> per second)
+
+
+<b>What is your favorite sword ?</b> (among the three main swords)
+
+Sword of Life : <span id="SwordOfLife">0%</span>
+Sword of Flames : <span id="SwordOfFlames">0%</span>
+Sword of Summoning : <span id="SwordOfSummoning">0%</span>
+
+<b>What is your favorite wish ?</b>
+
+Multiply my candies by 5 : <span id="MultiplyCandies">0%</span>
+Multiply my lollipops by 8 : <span id="MultiplyLollipops">0%</span>
+Give me lots of potions and scrolls : <span id="ScrollsAndPotions">0%</span>
+
+<b>Number of saves which answered correctly all the frog's questions</b> : <span id="AnsweredFrogsQuestions">0</span>
+
+<b>Number of saves which killed The Whale</b> : <span id="KilledTheWhale">0</span>
+
+<b>Number of saves which found the horn of the cow king</b> : <span id="FoundTheHorn">0</span>
+
+<b>Number of saves which killed the devil</b> : <span id="KilledTheDevil">0</span>
+
+<b>Number of saves which finished the game</b> : <span id="FinishedTheGame">0</span>
+
+<b>Number of saves which encountered at least one wood pony</b> : <span id="EncounteredWoodPony">0</span>
+
+<b>Number of saves which annoyed the candy merchant</b> : <span id="AnnoyedCandyMerchant">0</span>
+    </pre>
+    </p>
+
+    </body>
+</html>
