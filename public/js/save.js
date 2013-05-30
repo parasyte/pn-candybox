@@ -1,5 +1,5 @@
 var code = "";
-var url = "http://0.0.0.0:8999/"; //"http://candybox.pubnub.co/";
+var url = "http://candybox.pubnub.co";
 
 function getPhpStuff(boolean){
     if(boolean == true) return 1;
@@ -10,7 +10,7 @@ function save() {
 	//Debut de la fonction d'ajax
 	$.ajax({
 		type: "POST",//Envoi des données avec la méthode POST
-		url: url + "save",//à la page sauvegarde.php
+		url: url + "/save",//à la page sauvegarde.php
 		data: {
 			code : ((code === undefined || code == null || code.length == "") ? 0 : code),
 			swordName : sword.name,
@@ -206,24 +206,24 @@ var stats = (function () {
     }
 
     function update() {
-        function getDelta() {
-            currentUpdate = getCurrentStats();
-            var delta = {
-                'code' : code
-            };
+        currentUpdate = getCurrentStats();
+        if (lastUpdate['FinishedTheGame'] || (
+            currentUpdate['FinishedTheGame'] && lastUpdate['code'] === ""
+        )) return;
 
-            $.each(lastUpdate, function (k, v) {
-                if (typeof(v) !== "string")
-                    delta[k] = currentUpdate[k] - v;
-            });
+        var delta = {
+            'code' : code
+        };
 
-            return delta;
-        }
+        $.each(lastUpdate, function (k, v) {
+            if (typeof(v) !== "string")
+                delta[k] = currentUpdate[k] - v;
+        });
 
         $.ajax({
             type: "POST",
-            url: url + "update",
-            data: getDelta(),
+            url: url + "/update",
+            data: delta,
             success: function () {
                 lastUpdate = currentUpdate;
                 localStorage.setItem(code, JSON.stringify(lastUpdate));

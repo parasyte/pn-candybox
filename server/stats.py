@@ -65,7 +65,7 @@ def clear(dest):
     """Clear a stat delta."""
     dest._updated = False
     for k in dest.iterkeys():
-        dest[k] = 0.0
+        dest[k] = 0
 
 
 def update(src):
@@ -111,7 +111,6 @@ def distribute():
 
     ## Send stats to users
     stats['_NumberOfSaves'] = max(len(codes), stats['_NumberOfSaves'])
-    ## TODO: calculate averages for each item
     pubnub.publish({
         'channel'   : "candybox",
         'message'   : stats
@@ -158,8 +157,7 @@ def init():
         elif msg['action'] == "update":
             ## Update internal game stats
             add(stats, msg['data']['delta'], internal=True)
-            for code in msg['data']['codes']:
-                codes.add(code)
+            codes |= set(msg['data']['codes'])
 
         ## Continue listening
         return True

@@ -18,13 +18,19 @@
         $("#TotalLollipops").text(msg.TotalLollipops);
         $("#LollipopsPerSecond").text(msg.LollipopsPerSecond);
 
-        $("#SwordOfLife").text(msg.NumberOfSwords["Sword of Life"]);
-        $("#SwordOfFlames").text(msg.NumberOfSwords["Sword of Flames"]);
-        $("#SwordOfSummoning").text(msg.NumberOfSwords["Sword of Summoning"]);
+        var SwordOfLife = msg.NumberOfSwords ? msg["Sword of Life"] / msg.NumberOfSwords : 0;
+        var SwordOfFlames = msg.NumberOfSwords ? msg["Sword of Flames"] / msg.NumberOfSwords : 0;
+        var SwordOfSummoning = msg.NumberOfSwords ? msg["Sword of Summoning"] / msg.NumberOfSwords : 0;
+        $("#SwordOfLife").text(SwordOfLife + "%");
+        $("#SwordOfFlames").text(SwordOfFlames + "%");
+        $("#SwordOfSummoning").text(SwordOfSummoning + "%");
 
-        $("#MultiplyCandies").text(msg.NumberOfWishes.MultiplyCandies);
-        $("#MultiplyLollipops").text(msg.NumberOfWishes.MultiplyLollipops);
-        $("#ScrollsAndPotions").text(msg.NumberOfWishes.ScrollsAndPotions);
+        var MultiplyCandies = msg.NumberOfWishes ? msg.MultiplyCandies / msg.NumberOfWishes : 0;
+        var MultiplyLollipops = msg.NumberOfWishes ? msg.MultiplyLollipops / msg.NumberOfWishes : 0;
+        var ScrollsAndPotions = msg.NumberOfWishes ? msg.ScrollsAndPotions / msg.NumberOfWishes : 0;
+        $("#MultiplyCandies").text(MultiplyCandies + "%");
+        $("#MultiplyLollipops").text(MultiplyLollipops + "%");
+        $("#ScrollsAndPotions").text(ScrollsAndPotions + "%");
 
         $("#AnsweredFrogsQuestions").text(msg.AnsweredFrogsQuestions);
         $("#KilledTheWhale").text(msg.KilledTheWhale);
