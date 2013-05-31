@@ -73,8 +73,7 @@ def update(src):
     global last_update
 
     try:
-        code = src['code']
-        del src['code']
+        code = src.pop('code')
     except KeyError:
         code = ""
 
