@@ -22,6 +22,7 @@ def respond(fn):
 
 
 @bottle.error(404)
+@bottle.error(405)
 @bottle.error(500)
 @respond
 def errorResponse(error):
