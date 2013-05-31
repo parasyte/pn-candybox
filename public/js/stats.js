@@ -9,12 +9,16 @@
         message : update
     });
 
-    function avg(numer, denom) {
+    function safe_div(numer, denom) {
         return denom ? numer / denom : 0;
     }
 
+    function avg(sum, count) {
+        return Math.round(safe_div(sum, count) * 1000) / 1000;
+    }
+
     function pct(fraction, total) {
-        return (Math.round(avg(fraction, total) * 10000) / 100) + "%";
+        return (Math.round(safe_div(fraction, total) * 10000) / 100) + "%";
     }
 
     function update(msg) {
