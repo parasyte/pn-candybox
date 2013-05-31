@@ -58,7 +58,7 @@ def add(dest, src, internal=False):
     dest._updated = True
     for k, v in src.iteritems():
         if k in dest and (internal or k[0] != "_"):
-            dest[k] += int(v)
+            dest[k] += v
 
 
 def clear(dest):
@@ -72,12 +72,23 @@ def update(src):
     """Update stats and record update time."""
     global last_update
 
+    try:
+        code = src['code']
+        del src['code']
+    except KeyError:
+        code = ""
+
+    try:
+        src = dict(map(lambda x: (x[0], int(x[1])), src.items()))
+    except ValueError:
+        return
+
     add(stats, src)
     add(delta, src)
 
-    if src['code'] not in codes:
-        codes.add(src['code'])
-        codes_delta.append(src['code'])
+    if code not in codes:
+        codes.add(code)
+        codes_delta.append(code)
 
     now = time.time()
     if now - last_update >= 300:
@@ -147,7 +158,10 @@ def init():
             ## Reply to sync request
             pubnub.publish({
                 'channel'   : "candybox_sync",
-                'data'      : stats
+                'message'   : {
+                    'uuid'      : myuuid,
+                    'data'      : stats
+                }
             })
 
         elif msg['action'] == "config":
