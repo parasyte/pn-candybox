@@ -163,7 +163,7 @@ var stats = (function () {
             'TotalCandies' : candies.nbrOwned,
             'CandiesPerSecond' : candies.candiesPerSecond * (objects.list.oldAmulet.have ? 3 : 1),
             'TotalLollipops' : lollipops.nbrOwned,
-            'LollipopsPerSecond' : (farm.lollipopsPerDay / 86400) * (objects.list.hornOfPlenty.have ? 3 : 1),
+            'LollipopsPerSecond' : Math.round(farm.lollipopsPerDay / 86400) * (objects.list.hornOfPlenty.have ? 3 : 1),
             'AnsweredFrogsQuestions' : (swamp.step >= 17) ? 1 : 0,
             'KilledTheWhale' : (quest.maxLandOrder >= 3) ? 1 : 0,
             'FoundTheHorn' : objects.list.hornOfPlenty.have ? 1 : 0,
