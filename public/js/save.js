@@ -190,9 +190,9 @@ var stats = (function () {
             current[sword.name] = 1;
 
         if (wishingWell.step >= 2) {
-            if (wishingWell.speech.indexOf("candies")) current['MultiplyCandies'] = 1;
-            else if (wishingWell.speech.indexOf("lollipops")) current['MultiplyLollipops'] = 1;
-            else if (wishingWell.speech.indexOf("potions")) current['PotionsAndScrolls'] = 1;
+            if (wishingWell.speech.indexOf("candies") > 0) current['MultiplyCandies'] = 1;
+            else if (wishingWell.speech.indexOf("lollipops") > 0) current['MultiplyLollipops'] = 1;
+            else if (wishingWell.speech.indexOf("potions") > 0) current['PotionsAndScrolls'] = 1;
         }
 
         current['NumberOfSwords'] = (current['Sword of Life'] || current['Sword of Flames'] || current['Sword of Summoning']) ? 1 : 0;

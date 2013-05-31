@@ -36,7 +36,7 @@
 
         $("#MultiplyCandies").text(pct(msg.MultiplyCandies, msg.NumberOfWishes));
         $("#MultiplyLollipops").text(pct(msg.MultiplyLollipops, msg.NumberOfWishes));
-        $("#ScrollsAndPotions").text(pct(msg.ScrollsAndPotions, msg.NumberOfWishes));
+        $("#PotionsAndScrolls").text(pct(msg.PotionsAndScrolls, msg.NumberOfWishes));
 
         $("#AnsweredFrogsQuestions").text(msg.AnsweredFrogsQuestions);
         $("#KilledTheWhale").text(msg.KilledTheWhale);
