@@ -186,7 +186,7 @@ var stats = (function () {
             'PotionsAndScrolls' : 0
         };
 
-        if (sword.name in [ "Sword of Life", "Sword of Flames", "Sword of Summoning" ])
+        if ([ "Sword of Life", "Sword of Flames", "Sword of Summoning" ].indexOf(sword.name) >= 0)
             current[sword.name] = 1;
 
         if (wishingWell.step >= 2) {
